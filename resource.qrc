@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/Images">
+        <file>haj_agha.jpg</file>
+        <file>name_page_bg.jpg</file>
+    </qresource>
+    <qresource prefix="/"/>
+    <qresource prefix="/new/prefix1"/>
+</RCC>
