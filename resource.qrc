@@ -2,7 +2,34 @@
     <qresource prefix="/Images">
         <file>haj_agha.jpg</file>
         <file>name_page_bg.jpg</file>
+        <file>board.jpg</file>
+        <file>background1.png</file>
+        <file>blue_player.png</file>
+        <file>gray_player.png</file>
+        <file>green_player.png</file>
+        <file>orange_player.png</file>
+        <file>pink_player.png</file>
+        <file>purple_player.png</file>
+        <file>red_player.png</file>
+        <file>yellow_player.png</file>
+        <file>board2.jpg</file>
+        <file>Light wooden background_.jfif</file>
+        <file>white_dice1.png</file>
+        <file>white_dice2.png</file>
+        <file>white_dice3.png</file>
+        <file>white_dice4.png</file>
+        <file>white_dice5.png</file>
+        <file>white_dice6.png</file>
+        <file>black_dice1.png</file>
+        <file>black_dice2.png</file>
+        <file>black_dice3.png</file>
+        <file>black_dice4.png</file>
+        <file>black_dice5.png</file>
+        <file>black_dice6.png</file>
+        <file>undefined_black_dice.jpg</file>
+        <file>undefined_white_dice.png</file>
     </qresource>
-    <qresource prefix="/"/>
-    <qresource prefix="/new/prefix1"/>
+    <qresource prefix="/Style">
+        <file>styles.css</file>
+    </qresource>
 </RCC>

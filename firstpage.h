@@ -18,8 +18,15 @@ private:
     QSlider *player_num_sld;
     QPushButton *done_btn;
 
+public:
+    int players_num;
+
 private slots:
-    void done_btn_clicked();
+//    void done_clicked();
+    void num_changed(int);
+
+signals:
+    void players_num_gotted();
 };
 
 #endif // FIRSTPAGE_H

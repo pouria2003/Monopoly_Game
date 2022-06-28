@@ -1,21 +1,32 @@
 #ifndef MONOPOLY_H
 #define MONOPOLY_H
 
-#include <QMainWindow>
+#include <QGraphicsView>
+#include <QGraphicsScene>
 
-QT_BEGIN_NAMESPACE
-namespace Ui { class Monopoly; }
-QT_END_NAMESPACE
+class Dice;
+class Player;
 
-class Monopoly : public QMainWindow
+class Monopoly : public QGraphicsView
 {
-    Q_OBJECT
-
-public:
-    Monopoly(QWidget *parent = nullptr);
-    ~Monopoly();
+private:
+    Monopoly(const QVector<QString>& players_info);
 
 private:
-    Ui::Monopoly *ui;
+    static Monopoly * _instance;
+
+public:
+    static Monopoly * createInstance(const QVector<QString> & player_info);
+    static Monopoly * instance();
+    int tass();
+    void addPlayer(Player *);
+
+public:
+    QGraphicsScene *scene;
+
+private:
+    Dice *dice1;
+    Dice *dice2;
 };
+
 #endif // MONOPOLY_H

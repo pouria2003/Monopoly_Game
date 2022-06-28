@@ -9,13 +9,17 @@
 
 class PlayersName : public QWidget
 {
+    Q_OBJECT
+
 public:
     PlayersName(int number_of_players);
+    virtual ~PlayersName() {};
 
 private:
     QLabel **names_lbl;
     QLineEdit **names_le;
-    QComboBox **colors_cb;
+    QLabel **colors_lbl;
+    //QComboBox **colors_cb;
     QPushButton *done_btn;
 
     int number_of_players;
@@ -23,9 +27,12 @@ private:
 private:
     QComboBox* createComboBox();
 
-private slots:
+public slots:
     void done_btn_clicked();
-    void alter_combo_boxes(int);
+//    void alter_combo_boxes(int);
+
+signals:
+    void finish_this_page();
 };
 
 #endif // PLAYERSNAME_H

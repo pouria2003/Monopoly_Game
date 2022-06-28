@@ -1,15 +1,12 @@
-#include "monopoly.h"
-#include "firstpage.h"
-
+#include "mainwindow.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-//    Monopoly w;
-//    w.show();
-    FirstPage f;
-    f.show();
+
+    MainWindow w;
+    w.show();
 
     return a.exec();
 }
