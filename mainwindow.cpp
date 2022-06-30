@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "playersname.h"
 #include "monopoly.h"
-#include "firstpage.h"
+#include "getplayersnumber.h"
 #include <QFile>
 
 QVector<QString> players_info;
@@ -17,12 +17,12 @@ MainWindow::MainWindow(QWidget *parent)
 
 //    this->setStyleSheet(qssStr);
 
-    first_page = new FirstPage;
+    first_page = new GetPlayersNumber;
 
     this->setCentralWidget(first_page);
 
 //    connect(first_page, SIGNAL(players_num_gotted(int)), this, SIGNAL(getPlayersName(int)));
-    connect(first_page, &FirstPage::players_num_gotted, this, &MainWindow::getPlayersName);
+    connect(first_page, &GetPlayersNumber::players_num_gotted, this, &MainWindow::getPlayersName);
 }
 
 void MainWindow::getPlayersName()
@@ -35,6 +35,7 @@ void MainWindow::getPlayersName()
 void MainWindow::startGame()
 {
     this->resize(800, 800);
-    Monopoly *monopoly = Monopoly::createInstance(players_info);
+    Monopoly *monopoly = Monopoly::createInstance();
+    monopoly->start(players_info);
     setCentralWidget(monopoly);
 }

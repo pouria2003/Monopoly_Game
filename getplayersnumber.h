@@ -1,16 +1,16 @@
-#ifndef FIRSTPAGE_H
-#define FIRSTPAGE_H
+#ifndef GETPLAYERSNUMBER_H
+#define GETPLAYERSNUMBER_H
 
 #include <QWidget>
 #include <QLabel>
 #include <QSlider>
 #include <QPushButton>
 
-class FirstPage : public QWidget {
+class GetPlayersNumber : public QWidget {
     Q_OBJECT
 
 public:
-    FirstPage(QWidget * = nullptr);
+    GetPlayersNumber(QWidget * = nullptr);
 
 private:
     QLabel *player_num_lbl;
@@ -29,4 +29,4 @@ signals:
     void players_num_gotted();
 };
 
-#endif // FIRSTPAGE_H
+#endif // GETPLAYERSNUMBER_H

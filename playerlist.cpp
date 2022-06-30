@@ -14,9 +14,8 @@ PlayerList::PlayerList(const QVector<QString> &players_info)
 void PlayerList::start()
 {
     Monopoly *monopoly = Monopoly::instance();
-    if(monopoly == 0)
-        qDebug() << "are" ;
-//    monopoly->tass();
+
+    monopoly->tass();
 //    bool game_continiue = true;
 //    int players_num = players.size();
 

@@ -28,8 +28,28 @@
         <file>black_dice6.png</file>
         <file>undefined_black_dice.jpg</file>
         <file>undefined_white_dice.png</file>
+        <file>main_bg.png</file>
+        <file>p_info_bg.png</file>
     </qresource>
     <qresource prefix="/Style">
         <file>styles.css</file>
+    </qresource>
+    <qresource prefix="/Images/properties">
+        <file>blue_property.png</file>
+        <file>brown_property.png</file>
+        <file>green_property.png</file>
+        <file>orange_property.png</file>
+        <file>pink_property.png</file>
+        <file>red_property.png</file>
+        <file>station_property.png</file>
+        <file>lightblue_property.png</file>
+        <file>yellow_property.png</file>
+    </qresource>
+    <qresource prefix="/Images/Houses">
+        <file>h1.png</file>
+        <file>h2.png</file>
+        <file>h3.png</file>
+        <file>h4.png</file>
+        <file>hotel.png</file>
     </qresource>
 </RCC>

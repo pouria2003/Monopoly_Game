@@ -10,26 +10,39 @@ CONFIG += c++11
 
 SOURCES += \
     board.cpp \
+    deed.cpp \
+    deedcontainer.cpp \
     dice.cpp \
-    firstpage.cpp \
+    getplayersnumber.cpp \
     main.cpp \
     mainwindow.cpp \
     monopoly.cpp \
+    nonpropertyspace.cpp \
     player.cpp \
     playerinfo.cpp \
-    playerlist.cpp \
-    playersname.cpp
+    playersname.cpp \
+    propertyspace.cpp \
+    station.cpp \
+    street.cpp \
+    utility.cpp
 
 HEADERS += \
     board.h \
+    boardspace.h \
+    deed.h \
+    deedcontainer.h \
     dice.h \
-    firstpage.h \
+    getplayersnumber.h \
     mainwindow.h \
     monopoly.h \
+    nonpropertyspace.h \
     player.h \
     playerinfo.h \
-    playerlist.h \
-    playersname.h
+    playersname.h \
+    propertyspace.h \
+    station.h \
+    street.h \
+    utility.h
 
 FORMS += \
     monopoly.ui

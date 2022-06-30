@@ -10,13 +10,15 @@ class PlayerInfo : public QGraphicsPixmapItem
 public:
     PlayerInfo(Player *, QGraphicsItem * = nullptr);
     int getMoney();
-    void alterMoney(int);
+
 public:
     int money;
-private:
+public:
     Player *player;
     QGraphicsTextItem *name_txt;
     QGraphicsTextItem *money_txt;
+    QGraphicsPixmapItem *player_color;
+
 };
 
 #endif // PLAYERINFO_H

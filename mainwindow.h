@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 
-class FirstPage;
+class GetPlayersNumber;
 class PlayersName;
 
 class MainWindow : public QMainWindow
@@ -14,7 +14,7 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
 
 private:
-    FirstPage *first_page;
+    GetPlayersNumber *first_page;
     PlayersName *players_name;
 
 private slots:

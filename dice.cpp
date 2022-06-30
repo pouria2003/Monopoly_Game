@@ -1,16 +1,20 @@
 #include "dice.h"
 #include <QRandomGenerator>
 #include <QDebug>
+#include <monopoly.h>
 
 
 Dice::Dice(DiceColor _color, QGraphicsItem *) : color(_color) {}
 
 int Dice::tass()
-{
+{    
     int result;
     result = QRandomGenerator::global()->bounded(1, 7);
+
     QString dice_path = QString(":/Images/") + ((color == White) ? QString("white") : QString("black") )
             + QString("_dice") + QString::number(result);
+
+    QPixmap image(dice_path);
 
     this->setPixmap(QPixmap(dice_path).scaled(50, 50));
 

@@ -9,34 +9,33 @@ PlayerInfo::PlayerInfo(Player *_player, QGraphicsItem * parent) : QGraphicsPixma
         throw std::invalid_argument("player passed to player info cannot be null");
     }
     player = _player;
-    setPixmap(QPixmap(":/Images/Light wooden background_.jfif").scaled(140, 50));
+
+    money = player->getMoney();
+
+    setPixmap(QPixmap(":/Images/p_info_bg.png").scaled(200, 70));
 
     name_txt = new QGraphicsTextItem(this);
 
     name_txt->setPlainText(player->getName());
 
-    name_txt->setFont(QFont("times", 14));
-    name_txt->setDefaultTextColor(Qt::black);
-    name_txt->setPos(0, 0);
-
-    money_txt = new QGraphicsTextItem(this);
-
-    money_txt->setPlainText(QString::number(money) + "$");
-    money_txt->setFont(QFont("Times", 14, QFont::Bold));
-    money_txt->setDefaultTextColor(Qt::darkGreen);
-    money_txt->setPos(0, 20);
+    name_txt->setFont(QFont("times", 14, QFont::Bold));
+    name_txt->setDefaultTextColor(Qt::darkCyan);
+    name_txt->setPos(40, 5);
 
 
+    QString image_path;
+    switch (player->getPlayerColor()) {
+    case RED: image_path = ":/Images/red_player.png"; break;
+    case BLUE: image_path = ":/Images/blue_player.png"; break;
+    case GREEN: image_path = ":/Images/green_player.png"; break;
+    case YELLOW: image_path = ":/Images/yellow_player.png"; break;
+    case GRAY: image_path = ":/Images/gray_player.png"; break;
+    case ORANGE: image_path = ":/Images/orange_player.png"; break;
+    case PURPLE: image_path = ":/Images/purple_player.png"; break;
+    case PINK: image_path = ":/Images/pink_player.png"; break;
+    }
 
-}
+    player_color = new QGraphicsPixmapItem(QPixmap(image_path).scaled(20, 20), this);
+    player_color->setPos(145, 5);
 
-int PlayerInfo::getMoney()
-{
-    return money;
-}
-
-void PlayerInfo::alterMoney(int mon)
-{
-    /// if(money + mon < 0)
-    money += mon;
 }
