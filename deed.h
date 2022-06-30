@@ -10,13 +10,18 @@ class Player;
 
 class Deed : public QGraphicsView
 {
+    Q_OBJECT
 public:
     Deed(PropertySpace *, QWidget * = nullptr);
     void setPlayer(Player *);
 
+public slots:
+    void Mclose();
+
 private:
     QGraphicsScene *scene;
     QGraphicsPixmapItem *item;
+    PropertySpace *property;
     QPushButton *buy_btn;
     QPushButton *auction_btn;
     Player *player;

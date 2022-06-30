@@ -12,7 +12,7 @@ class DeedContainer : private QWidget
     Q_OBJECT
 public:
     explicit DeedContainer(PropertySpace *p, QWidget *parent = nullptr);
-    void Mshow(Player *player);
+    void Mshow(Player *);
 
 public:
     Deed *deed;

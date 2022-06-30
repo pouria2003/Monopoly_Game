@@ -4,9 +4,10 @@
 #include "street.h"
 #include "station.h"
 #include "player.h"
+#include "monopoly.h"
 #include <typeinfo>
 
-Deed::Deed(PropertySpace *property, QWidget *p) : QGraphicsView(p)
+Deed::Deed(PropertySpace *_property, QWidget *p) : QGraphicsView(p), property(_property)
 {
 
 
@@ -40,7 +41,7 @@ Deed::Deed(PropertySpace *property, QWidget *p) : QGraphicsView(p)
 
     // ############################ DEED'S ELEMENTS #############################
         QGraphicsTextItem *name_txt = new QGraphicsTextItem(street->NAME);
-        name_txt->setPos(150, 110);
+        name_txt->setPos(140, 110);
         name_txt->setFont(QFont("Times", 14, QFont::Bold));
         name_txt->setDefaultTextColor(Qt::white);
         scene->addItem(name_txt);
@@ -69,7 +70,7 @@ Deed::Deed(PropertySpace *property, QWidget *p) : QGraphicsView(p)
         h2->setPos(90, 240);
         scene->addItem(h2);
 
-        QGraphicsTextItem *h2_txt = new QGraphicsTextItem("with two house " + QString::number(street->WITH_ONE_HOUSE) + "$");
+        QGraphicsTextItem *h2_txt = new QGraphicsTextItem("with two house " + QString::number(street->WITH_TWO_HOUSE) + "$");
         h2_txt->setPos(130, 245);
         h2_txt->setFont(QFont("Times", 8));
         scene->addItem(h2_txt);
@@ -78,7 +79,7 @@ Deed::Deed(PropertySpace *property, QWidget *p) : QGraphicsView(p)
         h3->setPos(90, 270);
         scene->addItem(h3);
 
-        QGraphicsTextItem *h3_txt = new QGraphicsTextItem("with three house " + QString::number(street->WITH_ONE_HOUSE) + "$");
+        QGraphicsTextItem *h3_txt = new QGraphicsTextItem("with three house " + QString::number(street->WITH_THREE_HOUSE) + "$");
         h3_txt->setPos(130, 275);
         h3_txt->setFont(QFont("Times", 8));
         scene->addItem(h3_txt);
@@ -87,7 +88,7 @@ Deed::Deed(PropertySpace *property, QWidget *p) : QGraphicsView(p)
         h4->setPos(90, 300);
         scene->addItem(h4);
 
-        QGraphicsTextItem *h4_txt = new QGraphicsTextItem("with four house " + QString::number(street->WITH_ONE_HOUSE) + "$");
+        QGraphicsTextItem *h4_txt = new QGraphicsTextItem("with four house " + QString::number(street->WITH_FOUR_HOUSE) + "$");
         h4_txt->setPos(130, 305);
         h4_txt->setFont(QFont("Times", 8));
         scene->addItem(h4_txt);
@@ -96,7 +97,7 @@ Deed::Deed(PropertySpace *property, QWidget *p) : QGraphicsView(p)
         hotel->setPos(90, 330);
         scene->addItem(hotel);
 
-        QGraphicsTextItem *hotel_txt = new QGraphicsTextItem("with hotel " + QString::number(street->WITH_ONE_HOUSE) + "$");
+        QGraphicsTextItem *hotel_txt = new QGraphicsTextItem("with hotel " + QString::number(street->WITH_HOTEL) + "$");
         hotel_txt->setPos(130, 335);
         hotel_txt->setFont(QFont("Times", 8));
         scene->addItem(hotel_txt);
@@ -120,7 +121,7 @@ Deed::Deed(PropertySpace *property, QWidget *p) : QGraphicsView(p)
 
 // ######################### BUTTONS ##############################
     buy_btn = new QPushButton("Buy", this);
-    buy_btn->setGeometry(297, 250, 80, 30);
+    buy_btn->setGeometry(305, 250, 80, 30);
     QColor col = QColor(Qt::green);
     if(col.isValid()) {
         QString qss = QString("background-color: %1").arg(col.name());
@@ -128,12 +129,10 @@ Deed::Deed(PropertySpace *property, QWidget *p) : QGraphicsView(p)
         buy_btn->setFont(QFont("Georgia", 10, QFont::Bold));
     }
 
-    if (player->getMoney() < property->PRICE) {
-        buy_btn->setDisabled(true);
-    }
+
 
     auction_btn = new QPushButton("Auction", this);
-    auction_btn->setGeometry(297, 330, 80, 30);
+    auction_btn->setGeometry(305, 330, 80, 30);
     col = QColor(Qt::red);
     if(col.isValid()) {
         QString qss = QString("background-color: %1").arg(col.name());
@@ -141,12 +140,22 @@ Deed::Deed(PropertySpace *property, QWidget *p) : QGraphicsView(p)
         auction_btn->setFont(QFont("Georgia", 10, QFont::Bold));
     }
 
-
+    connect(buy_btn, SIGNAL(clicked()), this, SLOT(close()));
+    connect(auction_btn, SIGNAL(clicked()), this, SLOT(close()));
 
 }
 
-void Deed::setPlayer(Player * _player)
+void Deed::setPlayer(Player *_player)
 {
-    qDebug() << "player in setPlayer " ;
     player = _player;
+
+    if (player->getMoney() < property->PRICE)
+        buy_btn->setDisabled(true);
+}
+
+void Deed::Mclose()
+{
+    qDebug() << " in MCLose ";
+    Monopoly::instance()->enableButtons();
+    this->close();
 }

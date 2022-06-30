@@ -1,5 +1,6 @@
 #include "station.h"
 #include "deed.h"
+#include "monopoly.h"
 #include <QTimer>
 #include <QDebug>
 
@@ -9,5 +10,6 @@ Station::Station(int space_num, const QString& name, int price, int rent, int tw
 
 void Station::playerOn(Player *player)
 {
+    Monopoly::instance()->enableButtons();
     qDebug() << "a player on station";
 }

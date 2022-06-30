@@ -121,7 +121,7 @@ void Monopoly::start(const QVector<QString> &players_info)
             players_info_part << addPlayerInfo(players[i], i);
         }
 
-// ######################################### PLAYERS INFO #####################################
+// ######################################### PLAYERS MONEY #####################################
         for(int i = 0; i < players_num; ++i) {
             players_money << addMoney(i);
         }
@@ -144,6 +144,8 @@ void Monopoly::start(const QVector<QString> &players_info)
 
 }
 
+
+// create instance of Monopoly
 Monopoly * Monopoly::createInstance()
 {
     if(_instance == nullptr)
@@ -152,35 +154,46 @@ Monopoly * Monopoly::createInstance()
     return _instance;
 }
 
+// role the tass and emit move
 void Monopoly::tass()
 {
-
-    qDebug() << "tass called";
+    qDebug() << "first of tass";
     tass_rse = dice1->tass() + dice2->tass();
     emit Monopoly::move();
+    qDebug() << "end of tass";
 }
 
+// set buttons disable and call move() for player
 void Monopoly::move()
 {
-    tass_btn->setDisabled(true);
+    this->disableButtons();
+    qDebug() << "in move _ current player index : " << current_player_index ;
     players[current_player_index]->move(tass_rse);
 
 }
 
-void Monopoly::next_slot()
+// function to do stuff after player moved
+void Monopoly::done()
 {
-    qDebug() << "current sit :" << players[current_player_index]->getCurrentSit();
-    if(property_spaces.contains(players[current_player_index]->getCurrentSit()))
-        property_spaces[players[current_player_index]->getCurrentSit()]->playerOn(players[current_player_index]);
-    else
-        non_property_spaces[players[current_player_index]->getCurrentSit()]->playerOn(players[current_player_index]);
+    int player_sit = players[current_player_index]->getCurrentSit();
+    if (property_spaces.contains(player_sit)) {
+        property_spaces[player_sit]->playerOn(players[current_player_index]);
+    }
+    else if (non_property_spaces.contains(player_sit)) {
+        non_property_spaces[player_sit]->playerOn(players[current_player_index]);
+    }
 
-    tass_btn->setEnabled(true);
-    qDebug() << "next called";
+    emit Monopoly::next();
+}
+
+void Monopoly::next()
+{
+    this->enableButtons();
     current_player_index += 1;
     current_player_index %= players.size();
 }
 
+// function to add Players info to scene
 PlayerInfo * Monopoly::addPlayerInfo(Player * player, int ith)
 {
     PlayerInfo *player_info = new PlayerInfo(player);
@@ -189,6 +202,7 @@ PlayerInfo * Monopoly::addPlayerInfo(Player * player, int ith)
     return player_info;
 }
 
+// function to add Players money to scene
 QGraphicsTextItem * Monopoly::addMoney(int ith)
 {
     QGraphicsTextItem * text = new QGraphicsTextItem;
@@ -200,6 +214,7 @@ QGraphicsTextItem * Monopoly::addMoney(int ith)
     return text;
 }
 
+// funtion to handle players request to buy a property
 void Monopoly::buyPropertyForPlayer(Player * player, int space_num)
 {
     int ind = players.indexOf(player);
@@ -211,12 +226,26 @@ void Monopoly::buyPropertyForPlayer(Player * player, int space_num)
     }
 }
 
+void Monopoly::disableButtons()
+{
+    tass_btn->setDisabled(true);
+    qDebug() << "in set disabled";
+}
+
+void Monopoly::enableButtons()
+{
+    tass_btn->setDisabled(false);
+    qDebug() << "in set enabled";
+}
+
+// funtion to get rent of player if player is on another player property
 void Monopoly::getRent(PropertySpace * property)
 {
     players[current_player_index]->changeMoney(-property->rent());
     property->owner->changeMoney(property->rent());
 }
 
+// function to change player money text on scene
 void Monopoly::moneyChanged()
 {
     players_money[current_player_index]->setPlainText(QString::number(players[current_player_index]->getMoney())+ "$");

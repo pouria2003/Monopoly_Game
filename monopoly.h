@@ -34,8 +34,11 @@ public:
 public slots:
     void tass();
     void move();
-    void next_slot();
+    void done();
+    void next();
     void buyPropertyForPlayer(Player *, int space_num);
+    void disableButtons();
+    void enableButtons();
 
 public:
     QGraphicsScene *scene;

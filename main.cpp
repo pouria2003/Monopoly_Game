@@ -3,19 +3,14 @@
 #include "street.h"
 #include "player.h"
 
+
+/// override close so can send enable slot when a deed close
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-//    MainWindow w;
-//    w.show();
-
-    Player *pl = new Player("pouria", PlayerColor::BLUE);
-
-    PropertySpace *p = new Street(0, SC_BLUE, ("خاقانی"), 1, 1, 1, 1, 1, 1, 1, 1, 1);
-    qDebug() << "main 1";
-    p->playerOn(pl);
-
+    MainWindow w;
+    w.show();
 
     return a.exec();
 }

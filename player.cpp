@@ -111,6 +111,6 @@ void Player::moveOne()
     --dice_num;
     if(dice_num == 0) {
         timer_move->stop();
-        emit Monopoly::instance()->next_slot();
+        emit Monopoly::instance()->done();
     }
 }
