@@ -12,7 +12,7 @@ Player::Player(const QString & _name, PlayerColor color, QGraphicsItem * parent)
 
     state = Normal;
     current_sit = 0;
-    money = 100;
+    money = 1500;
 
     QString image_path;
     switch (color) {
@@ -69,7 +69,7 @@ PlayerColor Player::getPlayerColor()
 void Player::move(int _dice_num)
 {
     dice_num = _dice_num;
-    timer_move->start(200);
+    timer_move->start(300);
 }
 
 void Player::changeMoney(int diff)
@@ -111,6 +111,6 @@ void Player::moveOne()
     --dice_num;
     if(dice_num == 0) {
         timer_move->stop();
-        emit Monopoly::instance()->done();
+        emit Monopoly::instance()->player_done();
     }
 }

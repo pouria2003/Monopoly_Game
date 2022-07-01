@@ -28,15 +28,17 @@ public:
     static Monopoly * instance();
     void start(const QVector<QString> & player_info);
     QGraphicsTextItem * addMoney(int ith);
-    void getRent(PropertySpace *);
+    void getRent(Player *, int);
     void moneyChanged();
+    void buyPropertyForPlayer();
+
 
 public slots:
     void tass();
     void move();
-    void done();
+    void player_done();
+    void space_done();
     void next();
-    void buyPropertyForPlayer(Player *, int space_num);
     void disableButtons();
     void enableButtons();
 
@@ -49,12 +51,13 @@ private:
     QVector<PlayerInfo *> players_info_part;
     QHash<int, PropertySpace *> property_spaces;
     QHash<int, NonPropertySpace *> non_property_spaces;
+    QHash<int, QGraphicsPixmapItem *>space_owner;
     Dice *dice1;
     Dice *dice2;
     int current_player_index;
     int tass_rse;
     QPushButton *tass_btn;
-
+    void setPropertyOwner(Player *, int);
 
 };
 

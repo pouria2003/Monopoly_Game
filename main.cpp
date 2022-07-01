@@ -1,10 +1,9 @@
 #include "mainwindow.h"
 #include <QApplication>
-#include "street.h"
+#include "station.h"
 #include "player.h"
+#include "deedcontainer.h"
 
-
-/// override close so can send enable slot when a deed close
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);

@@ -13,13 +13,14 @@ class DeedContainer : private QWidget
 public:
     explicit DeedContainer(PropertySpace *p, QWidget *parent = nullptr);
     void Mshow(Player *);
+    void Mclose();
+    ~DeedContainer();
 
 public:
     Deed *deed;
 
 private:
     QLabel *player_name_lbl;
-
 
 };
 

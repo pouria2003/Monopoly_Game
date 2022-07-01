@@ -95,7 +95,35 @@ void Monopoly::start(const QVector<QString> &players_info)
     non_property_spaces[33] = new NonPropertySpace(33, NonPropertySpaceKind::Chest);
     non_property_spaces[36] = new NonPropertySpace(36, NonPropertySpaceKind::Chance);
     non_property_spaces[38] = new NonPropertySpace(38, NonPropertySpaceKind::SuperTax);
-
+// ######################################## PROPERTY OWNER ##############################################
+    space_owner[1] = nullptr;
+    space_owner[3] = nullptr;
+    space_owner[5] = nullptr;
+    space_owner[6] = nullptr;
+    space_owner[8] = nullptr;
+    space_owner[9] = nullptr;
+    space_owner[11] = nullptr;
+    space_owner[12] = nullptr;
+    space_owner[13] = nullptr;
+    space_owner[14] = nullptr;
+    space_owner[15] = nullptr;
+    space_owner[16] = nullptr;
+    space_owner[18] = nullptr;
+    space_owner[19] = nullptr;
+    space_owner[21] = nullptr;
+    space_owner[23] = nullptr;
+    space_owner[24] = nullptr;
+    space_owner[25] = nullptr;
+    space_owner[26] = nullptr;
+    space_owner[27] = nullptr;
+    space_owner[28] = nullptr;
+    space_owner[29] = nullptr;
+    space_owner[31] = nullptr;
+    space_owner[32] = nullptr;
+    space_owner[34] = nullptr;
+    space_owner[35] = nullptr;
+    space_owner[37] = nullptr;
+    space_owner[39] = nullptr;
 
 // ######################################## DICES ##############################################
         dice1 = new Dice(DiceColor::White);
@@ -150,30 +178,26 @@ Monopoly * Monopoly::createInstance()
 {
     if(_instance == nullptr)
         _instance = new Monopoly();
-    qDebug() << "instance changed to " << _instance;
     return _instance;
 }
 
 // role the tass and emit move
 void Monopoly::tass()
 {
-    qDebug() << "first of tass";
     tass_rse = dice1->tass() + dice2->tass();
     emit Monopoly::move();
-    qDebug() << "end of tass";
 }
 
 // set buttons disable and call move() for player
 void Monopoly::move()
 {
     this->disableButtons();
-    qDebug() << "in move _ current player index : " << current_player_index ;
     players[current_player_index]->move(tass_rse);
 
 }
 
 // function to do stuff after player moved
-void Monopoly::done()
+void Monopoly::player_done()
 {
     int player_sit = players[current_player_index]->getCurrentSit();
     if (property_spaces.contains(player_sit)) {
@@ -182,8 +206,11 @@ void Monopoly::done()
     else if (non_property_spaces.contains(player_sit)) {
         non_property_spaces[player_sit]->playerOn(players[current_player_index]);
     }
+}
 
-    emit Monopoly::next();
+void Monopoly::space_done()
+{
+    emit next();
 }
 
 void Monopoly::next()
@@ -215,34 +242,69 @@ QGraphicsTextItem * Monopoly::addMoney(int ith)
 }
 
 // funtion to handle players request to buy a property
-void Monopoly::buyPropertyForPlayer(Player * player, int space_num)
+void Monopoly::buyPropertyForPlayer()
 {
-    int ind = players.indexOf(player);
-    if(ind < 0)
-        throw std::range_error("player does not exits");
-    if(player->getMoney() > property_spaces[space_num]->PRICE) {
-        player->changeMoney(-property_spaces[space_num]->PRICE);
-        property_spaces[space_num]->owner = player;
-    }
+    Player *player = players[current_player_index];
+    int space_num = players[current_player_index]->getCurrentSit();
+    if(player->getMoney() < property_spaces[space_num]->PRICE)
+        return;
+    player->changeMoney(-property_spaces[space_num]->PRICE);
+    property_spaces[space_num]->owner = player;
+    setPropertyOwner(player, space_num);
+
 }
 
 void Monopoly::disableButtons()
 {
     tass_btn->setDisabled(true);
-    qDebug() << "in set disabled";
 }
 
 void Monopoly::enableButtons()
 {
     tass_btn->setDisabled(false);
-    qDebug() << "in set enabled";
+}
+
+void Monopoly::setPropertyOwner(Player *player, int space_num)
+{
+    QString image_path;
+    switch (player->getPlayerColor()) {
+        case RED: image_path = ":/Images/red_player.png"; break;
+        case BLUE: image_path = ":/Images/blue_player.png"; break;
+        case GREEN: image_path = ":/Images/green_player.png"; break;
+        case YELLOW: image_path = ":/Images/yellow_player.png"; break;
+        case GRAY: image_path = ":/Images/gray_player.png"; break;
+        case ORANGE: image_path = ":/Images/orange_player.png"; break;
+        case PURPLE: image_path = ":/Images/purple_player.png"; break;
+        case PINK: image_path = ":/Images/pink_player.png"; break;
+    }
+
+    if(space_owner[space_num] == nullptr) {
+
+        QPoint point = Board::ithPoint(space_num);
+        switch (space_num / 10) {
+            case 0: point.setY(point.y() + 60); break;
+            case 1: point.setX(point.x() - 55); break;
+            case 2: point.setY(point.y() - 55); break;
+            case 3: point.setX(point.x() + 60); break;
+        }
+
+        space_owner[space_num] = new QGraphicsPixmapItem();
+        space_owner[space_num]->setPos(point);
+        scene->addItem(space_owner[space_num]);
+    }
+    space_owner[space_num]->setPixmap(QPixmap(image_path).scaled(15, 15));
+
 }
 
 // funtion to get rent of player if player is on another player property
-void Monopoly::getRent(PropertySpace * property)
+void Monopoly::getRent(Player * player, int rent)
 {
-    players[current_player_index]->changeMoney(-property->rent());
-    property->owner->changeMoney(property->rent());
+    qDebug() << "in getRent 1";
+
+    player->changeMoney(rent);
+
+    qDebug() << "in getRent 2";
+
 }
 
 // function to change player money text on scene

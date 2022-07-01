@@ -17,6 +17,7 @@ public:
            int with_three_house, int with_four_house, int with_hotel, int construction, int mortgage);
     StreetColor getColor();
     void playerOn(Player *) override;
+    int rent() override;
 
 public:
     const int RENT;
@@ -27,6 +28,10 @@ public:
     const int WITH_HOTEL;
     const int CONSTRUCTION;
     const int MORTGAGE;
+    char *buff;
+
+    // number of house : 0 for no house in space _ 5 for hotel in space
+    int house_number;
 
 private:
     StreetColor color;

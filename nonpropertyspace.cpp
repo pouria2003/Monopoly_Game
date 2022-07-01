@@ -16,5 +16,5 @@ NonPropertySpaceKind NonPropertySpace::getSpaceKind() {
 void NonPropertySpace::playerOn(Player *player)
 {
     Monopoly::instance()->enableButtons();
-    qDebug() << "a player on non property space";
+    Monopoly::instance()->space_done();
 }

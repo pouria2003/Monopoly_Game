@@ -12,7 +12,7 @@ class PropertySpace : public BoardSpace
 {
 public:
     PropertySpace(int space_num, const QString& name, int price);
-    int rent();
+    virtual int rent() = 0;
 
 public:
     Player *owner;

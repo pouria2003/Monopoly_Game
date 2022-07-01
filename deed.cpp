@@ -6,8 +6,10 @@
 #include "player.h"
 #include "monopoly.h"
 #include <typeinfo>
+#include "deedcontainer.h"
 
-Deed::Deed(PropertySpace *_property, QWidget *p) : QGraphicsView(p), property(_property)
+Deed::Deed(PropertySpace *_property, DeedContainer *_container, QWidget *p)
+    : QGraphicsView(p), container(_container), property(_property)
 {
 
 
@@ -40,84 +42,133 @@ Deed::Deed(PropertySpace *_property, QWidget *p) : QGraphicsView(p), property(_p
         scene->addItem(item);
 
     // ############################ DEED'S ELEMENTS #############################
-        QGraphicsTextItem *name_txt = new QGraphicsTextItem(street->NAME);
+
+        name_txt = new QGraphicsTextItem(street->NAME);
         name_txt->setPos(140, 110);
         name_txt->setFont(QFont("Times", 14, QFont::Bold));
         name_txt->setDefaultTextColor(Qt::white);
         scene->addItem(name_txt);
 
-        QGraphicsTextItem *rent_txt = new QGraphicsTextItem("RENT " + QString::number(street->RENT) + "$");
+        rent_txt = new QGraphicsTextItem("RENT " + QString::number(street->RENT) + "$");
         rent_txt->setPos(140, 152);
         rent_txt->setFont(QFont("Times", 10));
         scene->addItem(rent_txt);
 
-        QGraphicsTextItem *explain_txt = new QGraphicsTextItem("Rent is doubled on owning all unimproved \n"
+        explanation1_txt = new QGraphicsTextItem("Rent is doubled on owning all unimproved \n"
                                                                "                  sites in this group");
-        explain_txt->setPos(80, 170);
-        explain_txt->setFont(QFont("Times", 7));
-        scene->addItem(explain_txt);
+        explanation1_txt->setPos(80, 170);
+        explanation1_txt->setFont(QFont("Times", 7));
+        scene->addItem(explanation1_txt);
 
         QGraphicsPixmapItem *h1 = new QGraphicsPixmapItem(QPixmap(":/Images/Houses/h1.png").scaled(25, 25));
         h1->setPos(90, 220);
         scene->addItem(h1);
 
-        QGraphicsTextItem *h1_txt = new QGraphicsTextItem("with one house " + QString::number(street->WITH_ONE_HOUSE) + "$");
-        h1_txt->setPos(130, 215);
-        h1_txt->setFont(QFont("Times", 8));
-        scene->addItem(h1_txt);
+        QGraphicsTextItem *one_lvl_up_txt = new QGraphicsTextItem("with one house " + QString::number(street->WITH_ONE_HOUSE) + "$");
+        one_lvl_up_txt->setPos(130, 215);
+        one_lvl_up_txt->setFont(QFont("Times", 8));
+        scene->addItem(one_lvl_up_txt);
 
         QGraphicsPixmapItem *h2 = new QGraphicsPixmapItem(QPixmap(":/Images/Houses/h2.png").scaled(25, 25));
         h2->setPos(90, 240);
         scene->addItem(h2);
 
-        QGraphicsTextItem *h2_txt = new QGraphicsTextItem("with two house " + QString::number(street->WITH_TWO_HOUSE) + "$");
-        h2_txt->setPos(130, 245);
-        h2_txt->setFont(QFont("Times", 8));
-        scene->addItem(h2_txt);
+        two_lvl_up_txt = new QGraphicsTextItem("with two house " + QString::number(street->WITH_TWO_HOUSE) + "$");
+        two_lvl_up_txt->setPos(130, 245);
+        two_lvl_up_txt->setFont(QFont("Times", 8));
+        scene->addItem(two_lvl_up_txt);
 
         QGraphicsPixmapItem *h3 = new QGraphicsPixmapItem(QPixmap(":/Images/Houses/h3.png").scaled(25, 25));
         h3->setPos(90, 270);
         scene->addItem(h3);
 
-        QGraphicsTextItem *h3_txt = new QGraphicsTextItem("with three house " + QString::number(street->WITH_THREE_HOUSE) + "$");
-        h3_txt->setPos(130, 275);
-        h3_txt->setFont(QFont("Times", 8));
-        scene->addItem(h3_txt);
+        three_lvl_up_txt = new QGraphicsTextItem("with three house " + QString::number(street->WITH_THREE_HOUSE) + "$");
+        three_lvl_up_txt->setPos(130, 275);
+        three_lvl_up_txt->setFont(QFont("Times", 8));
+        scene->addItem(three_lvl_up_txt);
 
         QGraphicsPixmapItem *h4 = new QGraphicsPixmapItem(QPixmap(":/Images/Houses/h4.png").scaled(25, 25));
         h4->setPos(90, 300);
         scene->addItem(h4);
 
-        QGraphicsTextItem *h4_txt = new QGraphicsTextItem("with four house " + QString::number(street->WITH_FOUR_HOUSE) + "$");
-        h4_txt->setPos(130, 305);
-        h4_txt->setFont(QFont("Times", 8));
-        scene->addItem(h4_txt);
+        QGraphicsTextItem *four_lvl_up_txt = new QGraphicsTextItem("with four house " + QString::number(street->WITH_FOUR_HOUSE) + "$");
+        four_lvl_up_txt->setPos(130, 305);
+        four_lvl_up_txt->setFont(QFont("Times", 8));
+        scene->addItem(four_lvl_up_txt);
 
         QGraphicsPixmapItem *hotel = new QGraphicsPixmapItem(QPixmap(":/Images/Houses/hotel.png").scaled(25, 25));
         hotel->setPos(90, 330);
         scene->addItem(hotel);
 
-        QGraphicsTextItem *hotel_txt = new QGraphicsTextItem("with hotel " + QString::number(street->WITH_HOTEL) + "$");
-        hotel_txt->setPos(130, 335);
-        hotel_txt->setFont(QFont("Times", 8));
-        scene->addItem(hotel_txt);
+        five_lvl_up_txt = new QGraphicsTextItem("with hotel " + QString::number(street->WITH_HOTEL) + "$");
+        five_lvl_up_txt->setPos(130, 335);
+        five_lvl_up_txt->setFont(QFont("Times", 8));
+        scene->addItem(five_lvl_up_txt);
 
-        QGraphicsTextItem *construction_txt = new QGraphicsTextItem("Construction " + QString::number(street->CONSTRUCTION) + "$ each");
-        construction_txt->setPos(110, 370);
-        construction_txt->setFont(QFont("Times", 8));
-        scene->addItem(construction_txt);
+        explanation2_txt = new QGraphicsTextItem("Construction " + QString::number(street->CONSTRUCTION) + "$ each");
+        explanation2_txt->setPos(110, 370);
+        explanation2_txt->setFont(QFont("Times", 8));
+        scene->addItem(explanation2_txt);
 
-        QGraphicsTextItem *mortgage_txt = new QGraphicsTextItem("MORTGAGE " + QString::number(street->MORTGAGE) + "$");
+        mortgage_txt = new QGraphicsTextItem("MORTGAGE " + QString::number(street->MORTGAGE) + "$");
         mortgage_txt->setPos(115, 390);
         mortgage_txt->setFont(QFont("Times", 10));
         scene->addItem(mortgage_txt);
 
+        price_txt = new QGraphicsTextItem("For " + QString::number(street->PRICE) + "$");
+        price_txt->setPos(305, 180);
+        price_txt->setFont(QFont("Times", 12, QFont::Bold));
+        scene->addItem(price_txt);
+
+
     }
     else if (typeid(*(property)) == typeid(Station)) {
+
+        Station *station = dynamic_cast<Station *>(property);
+
         image_path = ":/Images/properties/station_property.png";
+        item = new QGraphicsPixmapItem(QPixmap(image_path));
+        scene->addItem(item);
+
+        // ############################ DEED'S ELEMENTS #############################
+
+        name_txt = new QGraphicsTextItem(station->NAME);
+        name_txt->setPos(140, 110);
+        name_txt->setFont(QFont("Times", 14, QFont::Bold));
+        name_txt->setDefaultTextColor(Qt::white);
+        scene->addItem(name_txt);
+
+        rent_txt = new QGraphicsTextItem("RENT " + QString::number(station->PRICE) + "$");
+        rent_txt->setPos(130, 160);
+        rent_txt->setFont(QFont("Times", 14));
+        scene->addItem(rent_txt);
+
+        one_lvl_up_txt = new QGraphicsTextItem("2 stations " + QString::number(station->TWO_STATION) + "$");
+        one_lvl_up_txt->setPos(115, 210);
+        one_lvl_up_txt->setFont(QFont("Times", 14));
+        scene->addItem(one_lvl_up_txt);
+
+        two_lvl_up_txt = new QGraphicsTextItem("3 stations " + QString::number(station->THREE_STATION) + "$");
+        two_lvl_up_txt->setPos(115, 260);
+        two_lvl_up_txt->setFont(QFont("Times", 14));
+        scene->addItem(two_lvl_up_txt);
+
+        three_lvl_up_txt = new QGraphicsTextItem("4 stations " + QString::number(station->FOUR_STATION) + "$");
+        three_lvl_up_txt->setPos(115, 310);
+        three_lvl_up_txt->setFont(QFont("Times", 14));
+        scene->addItem(three_lvl_up_txt);
+
+        mortgage_txt = new QGraphicsTextItem("MORTGAGE " + QString::number(station->MORTGAGE) + "$");
+        mortgage_txt->setPos(100, 380);
+        mortgage_txt->setFont(QFont("Times", 14));
+        scene->addItem(mortgage_txt);
+
+        price_txt = new QGraphicsTextItem("For " + QString::number(station->PRICE) + "$");
+        price_txt->setPos(305, 180);
+        price_txt->setFont(QFont("Times", 12, QFont::Bold));
+        scene->addItem(price_txt);
+
     }
-
-
 
 // ######################### BUTTONS ##############################
     buy_btn = new QPushButton("Buy", this);
@@ -140,10 +191,34 @@ Deed::Deed(PropertySpace *_property, QWidget *p) : QGraphicsView(p), property(_p
         auction_btn->setFont(QFont("Georgia", 10, QFont::Bold));
     }
 
-    connect(buy_btn, SIGNAL(clicked()), this, SLOT(close()));
-    connect(auction_btn, SIGNAL(clicked()), this, SLOT(close()));
+    connect(buy_btn, SIGNAL(clicked()), this, SLOT(buy()));
+    connect(buy_btn, SIGNAL(clicked()), this, SLOT(Mclose()));
+    connect(auction_btn, SIGNAL(clicked()), this, SLOT(Mclose()));
+    connect(auction_btn, SIGNAL(clicked()), this, SLOT(auction()));
 
 }
+
+//Deed::~Deed()
+//{
+//    delete container;
+//    delete scene;
+//    delete item;
+//    delete buy_btn;
+//    delete auction_btn;
+//    delete player;
+
+//    delete name_txt;
+//    delete rent_txt;
+//    delete one_lvl_up_txt;
+//    delete two_lvl_up_txt;
+//    delete three_lvl_up_txt;
+//    delete four_lvl_up_txt;
+//    delete five_lvl_up_txt;
+//    delete mortgage_txt;
+//    delete explanation1_txt;
+//    delete explanation2_txt;
+//    delete price_txt;
+//}
 
 void Deed::setPlayer(Player *_player)
 {
@@ -155,7 +230,17 @@ void Deed::setPlayer(Player *_player)
 
 void Deed::Mclose()
 {
-    qDebug() << " in MCLose ";
-    Monopoly::instance()->enableButtons();
-    this->close();
+    container->Mclose();
+}
+
+void Deed::buy()
+{
+    Monopoly::instance()->buyPropertyForPlayer();
+    Monopoly::instance()->space_done();
+}
+
+void Deed::auction()
+{
+    Monopoly::instance()->space_done();
+
 }

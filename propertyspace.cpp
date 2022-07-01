@@ -5,7 +5,3 @@ PropertySpace::PropertySpace(int space_num, const QString &name, int price) : Bo
     owner = nullptr;
 }
 
-int PropertySpace::rent()
-{
-    return 0;
-}
