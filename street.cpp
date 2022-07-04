@@ -13,7 +13,7 @@ Street::Street(int space_num, StreetColor _color, const QString& name, int price
 {
     buff = new char[sizeof (DeedContainer)];
     t = nullptr;
-    house_number = 0;
+    level = 0;
 }
 
 StreetColor Street::getColor()
@@ -24,48 +24,31 @@ StreetColor Street::getColor()
 void Street::playerOn(Player *player)
 {
 
-    static bool is_des = true;
-
-    qDebug() << "mikham beram to if _ is_des hast " << is_des;
-    if(t != nullptr && !is_des) {
-        qDebug() << "raftam to if is_des hast " << is_des;
-        t->~DeedContainer();
-        is_des = true;
-        qDebug() << "is des shod " << is_des;
-
-    }
-
     if(owner == nullptr) {
-
-
-        t = new(buff) DeedContainer(this, Monopoly::instance());
-        is_des = false;
-        qDebug() << "is des shod " << is_des;
-
-        t->Mshow(player);
+        Monopoly::instance()->showBuyDeed(player, this);
 
     }
     else if (player != owner) {
 
-        Monopoly::instance()->getRent(player, this->rent());
+        Monopoly::instance()->getRent(player, owner, this->rent());
         Monopoly::instance()->space_done();
 
+    }
+    else {
+        Monopoly::instance()->space_done();
     }
 }
 
 int Street::rent()
 {
-    qDebug() << "in rent 1";
-
-    switch (house_number) {
-    case 0: return RENT;
+    switch (level) {
+    case 0: return (is_grouped) ?  2 * RENT : RENT;
     case 1: return WITH_ONE_HOUSE;
     case 2: return WITH_TWO_HOUSE;
     case 3: return WITH_THREE_HOUSE;
     case 4: return WITH_FOUR_HOUSE;
     case 5: return WITH_HOTEL;
     default: return RENT;
-   qDebug() << "in rent  1";
 
     }
 }

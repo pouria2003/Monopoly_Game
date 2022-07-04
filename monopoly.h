@@ -4,6 +4,7 @@
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QHash>
+#include "street.h"
 
 class Dice;
 class Player;
@@ -12,6 +13,13 @@ class TEst;
 class QPushButton;
 class PropertySpace;
 class NonPropertySpace;
+class DeedContainer;
+class PaidRentContainer;
+class AuctionContainer;
+class InJail;
+class BuildContainer;
+class Chance_Chest_Container;
+class SellContainer;
 
 class Monopoly : public QGraphicsView
 {
@@ -28,19 +36,47 @@ public:
     static Monopoly * instance();
     void start(const QVector<QString> & player_info);
     QGraphicsTextItem * addMoney(int ith);
-    void getRent(Player *, int);
-    void moneyChanged();
-    void buyPropertyForPlayer();
+    void getRent(Player *payer, Player *payee, int);
+    void moneyChanged(Player *);
+    void buyPropertyForPlayer(Player *, PropertySpace *, int);
+    void showBuyDeed(Player *, PropertySpace *);
+    void showPaidRent(Player *payer, Player *payee, int rent);
+    void auction(PropertySpace *);
+    void playerIsInJail();
+    QVector<int>* playersGroupedSites();
+    bool isUpadatable(int space_num);
+    void showChance(int, int);
+    void checkIfPropertyGrouped(int space_num);
+    void getIncomTax();
+    void getSuperTax();
+    QPoint arrowPoint(int ith);
+    int dices_num();
+    void playerBroked();
+    void playerOutOfBroke();
+    QVector<int> *playerLeveledSites();
+    bool isSelable(int space_num);
 
 
 public slots:
-    void tass();
+    bool tass(bool = true);
     void move();
     void player_done();
     void space_done();
     void next();
-    void disableButtons();
-    void enableButtons();
+    void disableTassButton();
+    void enableTassButton();
+    void disableDoneButton();
+    void enableDoneButton();
+    void disableOtherButtons();
+    void enableOtherButtons();
+    void getOutOfJailCard();
+    void getOutOfJailDice();
+    void getOutOfJailPay();
+    void buildClicked();
+    void buildSit(int);
+    void sellClicked();
+    void sellSit(int);
+
 
 public:
     QGraphicsScene *scene;
@@ -49,16 +85,31 @@ private:
     QVector<QGraphicsTextItem *> players_money;
     QVector<Player *> players;
     QVector<PlayerInfo *> players_info_part;
+    QHash<int, QGraphicsPixmapItem *> house_on_street;
     QHash<int, PropertySpace *> property_spaces;
     QHash<int, NonPropertySpace *> non_property_spaces;
     QHash<int, QGraphicsPixmapItem *>space_owner;
+    QHash<StreetColor, int *> group_sites;
     Dice *dice1;
     Dice *dice2;
     int current_player_index;
     int tass_rse;
+    int equal_dice_num;
     QPushButton *tass_btn;
+    QPushButton *done_btn;
+    QPushButton *build_btn;
+    QPushButton *sell_btn;
+    QPushButton *mortgage_btn;
+    QPushButton *trade_btn;
     void setPropertyOwner(Player *, int);
-
+    DeedContainer *deed_container;
+    PaidRentContainer *paid_rent_container;
+    AuctionContainer *auction_container;
+    InJail *in_jail;
+    BuildContainer *build_container;
+    Chance_Chest_Container *chance_chest_container;
+    QGraphicsPixmapItem *arrow;
+    SellContainer *sell_container;
 };
 
 #endif // MONOPOLY_H

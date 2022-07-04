@@ -29,9 +29,8 @@ public:
     const int CONSTRUCTION;
     const int MORTGAGE;
     char *buff;
+    bool is_grouped;
 
-    // number of house : 0 for no house in space _ 5 for hotel in space
-    int house_number;
 
 private:
     StreetColor color;

@@ -9,13 +9,16 @@ class PropertySpace;
 class Player;
 class DeedContainer;
 
+
 class Deed : public QGraphicsView
 {
     Q_OBJECT
 public:
-    Deed(PropertySpace *, DeedContainer *, QWidget * = nullptr);
+    Deed(DeedContainer *, QWidget * = nullptr);
 //    ~Deed();
     void setPlayer(Player *);
+    void setDeed(PropertySpace *, Player *);
+
 
 
 private:

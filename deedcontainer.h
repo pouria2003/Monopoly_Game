@@ -11,8 +11,8 @@ class DeedContainer : private QWidget
 {
     Q_OBJECT
 public:
-    explicit DeedContainer(PropertySpace *p, QWidget *parent = nullptr);
-    void Mshow(Player *);
+    explicit DeedContainer(QWidget *parent = nullptr);
+    void Mshow(PropertySpace *,Player *);
     void Mclose();
     ~DeedContainer();
 

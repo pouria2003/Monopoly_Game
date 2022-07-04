@@ -7,13 +7,18 @@
 #include "monopoly.h"
 #include <typeinfo>
 #include "deedcontainer.h"
+#include "utility.h"
 
-Deed::Deed(PropertySpace *_property, DeedContainer *_container, QWidget *p)
-    : QGraphicsView(p), container(_container), property(_property)
+Deed::Deed(DeedContainer *_container, QWidget *p)
+    : QGraphicsView(p), container(_container)
+{}
+
+void Deed::setDeed(PropertySpace *_property, Player *_player)
 {
-
-
     scene = new QGraphicsScene;
+
+    player = _player;
+    property = _property;
 
     this->setScene(scene);
 
@@ -169,6 +174,21 @@ Deed::Deed(PropertySpace *_property, DeedContainer *_container, QWidget *p)
         scene->addItem(price_txt);
 
     }
+    else if (typeid(*(property)) == typeid (Utility)) {
+        Utility *utility = dynamic_cast<Utility *>(property);
+        if(utility->space_num == 12)
+            image_path = ":/Images/properties/electric_utility_deed.jpg";
+        else if (utility->space_num == 28)
+            image_path = ":/Images/properties/electric_utility_deed.jpg";
+
+        item = new QGraphicsPixmapItem(QPixmap(image_path).scaled(400, 490));
+        scene->addItem(item);
+
+        price_txt = new QGraphicsTextItem("For " + QString::number(utility->PRICE) + "$");
+        price_txt->setPos(305, 180);
+        price_txt->setFont(QFont("Times", 12, QFont::Bold));
+        scene->addItem(price_txt);
+    }
 
 // ######################### BUTTONS ##############################
     buy_btn = new QPushButton("Buy", this);
@@ -195,30 +215,7 @@ Deed::Deed(PropertySpace *_property, DeedContainer *_container, QWidget *p)
     connect(buy_btn, SIGNAL(clicked()), this, SLOT(Mclose()));
     connect(auction_btn, SIGNAL(clicked()), this, SLOT(Mclose()));
     connect(auction_btn, SIGNAL(clicked()), this, SLOT(auction()));
-
 }
-
-//Deed::~Deed()
-//{
-//    delete container;
-//    delete scene;
-//    delete item;
-//    delete buy_btn;
-//    delete auction_btn;
-//    delete player;
-
-//    delete name_txt;
-//    delete rent_txt;
-//    delete one_lvl_up_txt;
-//    delete two_lvl_up_txt;
-//    delete three_lvl_up_txt;
-//    delete four_lvl_up_txt;
-//    delete five_lvl_up_txt;
-//    delete mortgage_txt;
-//    delete explanation1_txt;
-//    delete explanation2_txt;
-//    delete price_txt;
-//}
 
 void Deed::setPlayer(Player *_player)
 {
@@ -235,12 +232,12 @@ void Deed::Mclose()
 
 void Deed::buy()
 {
-    Monopoly::instance()->buyPropertyForPlayer();
+    Monopoly::instance()->buyPropertyForPlayer(player, property, property->PRICE);
     Monopoly::instance()->space_done();
 }
 
 void Deed::auction()
 {
-    Monopoly::instance()->space_done();
-
+    Monopoly::instance()->auction(property);
+    container->Mclose();
 }

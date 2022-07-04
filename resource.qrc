@@ -30,6 +30,25 @@
         <file>undefined_white_dice.png</file>
         <file>main_bg.png</file>
         <file>p_info_bg.png</file>
+        <file>auction.png</file>
+        <file>build_bg.png</file>
+        <file>chance_1.png</file>
+        <file>chance_2.png</file>
+        <file>chance_3.png</file>
+        <file>chance_4.png</file>
+        <file>chance_5.png</file>
+        <file>chance_6.png</file>
+        <file>chance_7.png</file>
+        <file>chance_8.png</file>
+        <file>chest_1.png</file>
+        <file>chest_2.png</file>
+        <file>chest_3.png</file>
+        <file>chest_4.png</file>
+        <file>chest_5.png</file>
+        <file>chest_6.png</file>
+        <file>chest_7.png</file>
+        <file>chest_8.png</file>
+        <file>arrow.png</file>
     </qresource>
     <qresource prefix="/Style">
         <file>styles.css</file>
@@ -44,6 +63,9 @@
         <file>station_property.png</file>
         <file>lightblue_property.png</file>
         <file>yellow_property.png</file>
+        <file>paid_rent_template.png</file>
+        <file>electric_utility_deed.jpg</file>
+        <file>water_utility_deed.jpg</file>
     </qresource>
     <qresource prefix="/Images/Houses">
         <file>h1.png</file>
@@ -51,5 +73,43 @@
         <file>h3.png</file>
         <file>h4.png</file>
         <file>hotel.png</file>
+    </qresource>
+    <qresource prefix="/Images/deed">
+        <file>deed_6.png</file>
+        <file>deed_8.png</file>
+        <file>deed_9.png</file>
+        <file>deed_11.png</file>
+        <file>deed_13.png</file>
+        <file>deed_14.png</file>
+        <file>deed_16.png</file>
+        <file>deed_18.png</file>
+        <file>deed_19.png</file>
+        <file>deed_21.png</file>
+        <file>deed_23.png</file>
+        <file>deed_24.png</file>
+        <file>deed_26.png</file>
+        <file>deed_27.png</file>
+        <file>deed_29.png</file>
+        <file>deed_31.png</file>
+        <file>deed_32.png</file>
+        <file>deed_34.png</file>
+        <file>deed_37.png</file>
+        <file>deed_39.png</file>
+        <file>deed_station.png</file>
+        <file>water_utility.jpg</file>
+        <file>electric_utility.jpg</file>
+        <file>deed_1.png</file>
+        <file>deed_3.png</file>
+    </qresource>
+    <qresource prefix="/Images/auction">
+        <file>auction_bg_blue.png</file>
+        <file>auction_bg_gray.png</file>
+        <file>auction_bg_orange.png</file>
+        <file>auction_bg_pink.png</file>
+        <file>auction_bg_purple.png</file>
+        <file>auction_bg_red.png</file>
+        <file>auction_bg_yellow.png</file>
+        <file>auction.png</file>
+        <file>auction_bg_green.png</file>
     </qresource>
 </RCC>

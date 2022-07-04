@@ -19,6 +19,7 @@ public:
     DeedContainer *t;
     const QString NAME;
     const int PRICE;
+    int level;
 
 };
 

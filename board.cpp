@@ -34,3 +34,5 @@ QPoint Board::ithPoint(int ith)
         }
     }
 }
+
+

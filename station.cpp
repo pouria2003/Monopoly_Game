@@ -16,22 +16,25 @@ Station::Station(int space_num, const QString& name, int price, int rent, int tw
 
 void Station::playerOn(Player *player)
 {
-    static bool is_des = true;
+//    static bool is_des = true;
 
-    if(t != nullptr && !is_des) {
-        t->~DeedContainer();
-        is_des = true;
-    }
+//    if(t != nullptr && !is_des) {
+//        t->~DeedContainer();
+//        is_des = true;
+//    }
 
     if(owner == nullptr) {
-        t = new(buff) DeedContainer(this, Monopoly::instance());
-        is_des = false;
-        t->Mshow(player);
+//        t = new(buff) DeedContainer(this, Monopoly::instance());
+//        is_des = false;
+//        t->Mshow(player);
+        Monopoly::instance()->showBuyDeed(player, this);
     }
     else if (player != owner) {
-        Monopoly::instance()->getRent(player, this->rent());
+        Monopoly::instance()->getRent(player, owner, this->rent());
         Monopoly::instance()->space_done();
-
+    }
+    else {
+        Monopoly::instance()->space_done();
     }
 }
 

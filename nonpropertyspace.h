@@ -6,8 +6,8 @@
 class Player;
 
 enum NonPropertySpaceKind {
-    Jail, GoToJail, Go, FreeParking,
-    Chest, IncomeTax, Chance, SuperTax
+    Jail = 0, GoToJail, Go, FreeParking,
+    Chest, Chance, IncomeTax, SuperTax
 };
 
 class NonPropertySpace : public BoardSpace
@@ -19,6 +19,7 @@ public:
 
 private:
     NonPropertySpaceKind space_kind;
+    int number;
 };
 
 #endif // NONPROPERTYSPACE_H

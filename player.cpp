@@ -13,6 +13,9 @@ Player::Player(const QString & _name, PlayerColor color, QGraphicsItem * parent)
     state = Normal;
     current_sit = 0;
     money = 1500;
+//    if(name == "player 2")
+//        money = 1;
+    out_of_jail_num = 0;
 
     QString image_path;
     switch (color) {
@@ -43,6 +46,16 @@ Player::Player(const QString & _name, PlayerColor color, QGraphicsItem * parent)
 
     timer_move = new QTimer();
     connect(timer_move, SIGNAL(timeout()), this, SLOT(moveOne()));
+
+    timer_move_to_jail = new QTimer();
+    connect(timer_move_to_jail, SIGNAL(timeout()), this, SLOT(moveOneToJail()));
+
+    timer_move_to_go = new QTimer();
+    connect(timer_move_to_go, SIGNAL(timeout()), this, SLOT(moveOneToGo()));
+
+    timer_move_back = new QTimer();
+    connect(timer_move_back, SIGNAL(timeout()), this, SLOT(moveBack()));
+
 
 }
 
@@ -75,7 +88,15 @@ void Player::move(int _dice_num)
 void Player::changeMoney(int diff)
 {
     money += diff;
-    Monopoly::instance()->moneyChanged();
+    Monopoly::instance()->moneyChanged(this);
+    if(money < 0) {
+        this->state = Broke;
+//        Monopoly::instance()->playerBroked();
+    }
+    if(this->state == Broke && money > 0) {
+        this->state = Normal;
+        Monopoly::instance()->playerOutOfBroke();
+    }
 }
 
 int Player::getMoney()
@@ -92,7 +113,11 @@ void Player::moveOne()
 {
 
     ++current_sit;
-    current_sit %= 40;
+    if(current_sit == 40) {
+        if(this->state != PlayerState::InJail)
+            this->changeMoney(200);
+        current_sit -= 40;
+    }
 
     QPoint point = Board::ithPoint(current_sit);
 
@@ -111,6 +136,104 @@ void Player::moveOne()
     --dice_num;
     if(dice_num == 0) {
         timer_move->stop();
-        emit Monopoly::instance()->player_done();
+        Monopoly::instance()->player_done();
+    }
+}
+
+void Player::goToJail()
+{
+    this->state = PlayerState::InJail;
+    timer_move_to_jail->start(200);
+}
+
+void Player::getOutOfJail()
+{
+    this->state = PlayerState::Normal;
+}
+
+void Player::moveToGo()
+{
+    timer_move_to_go->start(200);
+}
+
+void Player::moveBackThreePlace()
+{
+    back_num = 3;
+    timer_move_back->start();
+}
+
+void Player::moveOneToGo()
+{
+    ++current_sit;
+    if(current_sit == 40) {
+        current_sit = 0;
+        timer_move_to_go->stop();
+        Monopoly::instance()->space_done();
+    }
+    QPoint point = Board::ithPoint(current_sit);
+
+    switch (player_color) {
+        case RED: this->setPos(point.x() + 10, point.y())/*(610, 630)*/; break;
+        case BLUE: this->setPos(point.x() + 10, point.y() + 10); break;
+        case GREEN: this->setPos(point.x() + 10, point.y() - 10); break;
+        case YELLOW: this->setPos(point.x(), point.y() + 10); break;
+        case GRAY: this->setPos(point.x(), point.y() - 10); break;
+        case ORANGE: this->setPos(point.x() - 10, point.y() + 10); break;
+        case PURPLE: this->setPos(point.x() - 10, point.y()); break;
+        case PINK: this->setPos(point.x() - 10, point.y() - 10); break;
+    }
+}
+
+
+
+void Player::moveBack()
+{
+    --current_sit;
+    if(current_sit < 0) {
+        current_sit += 40;
+    }
+    QPoint point = Board::ithPoint(current_sit);
+
+    switch (player_color) {
+        case RED: this->setPos(point.x() + 10, point.y())/*(610, 630)*/; break;
+        case BLUE: this->setPos(point.x() + 10, point.y() + 10); break;
+        case GREEN: this->setPos(point.x() + 10, point.y() - 10); break;
+        case YELLOW: this->setPos(point.x(), point.y() + 10); break;
+        case GRAY: this->setPos(point.x(), point.y() - 10); break;
+        case ORANGE: this->setPos(point.x() - 10, point.y() + 10); break;
+        case PURPLE: this->setPos(point.x() - 10, point.y()); break;
+        case PINK: this->setPos(point.x() - 10, point.y() - 10); break;
+    }
+    --back_num;
+    if(back_num == 0) {
+        timer_move_back->stop();
+        Monopoly::instance()->space_done();
+    }
+}
+
+
+
+void Player::moveOneToJail()
+{
+    ++current_sit;
+    if(current_sit > 39) {
+        current_sit -= 40;
+    }
+    QPoint point = Board::ithPoint(current_sit);
+
+    switch (player_color) {
+        case RED: this->setPos(point.x() + 10, point.y())/*(610, 630)*/; break;
+        case BLUE: this->setPos(point.x() + 10, point.y() + 10); break;
+        case GREEN: this->setPos(point.x() + 10, point.y() - 10); break;
+        case YELLOW: this->setPos(point.x(), point.y() + 10); break;
+        case GRAY: this->setPos(point.x(), point.y() - 10); break;
+        case ORANGE: this->setPos(point.x() - 10, point.y() + 10); break;
+        case PURPLE: this->setPos(point.x() - 10, point.y()); break;
+        case PINK: this->setPos(point.x() - 10, point.y() - 10); break;
+    }
+
+    if(this->current_sit == 10) {
+        timer_move_to_jail->stop();
+        Monopoly::instance()->space_done();
     }
 }
