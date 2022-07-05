@@ -18,7 +18,6 @@ public:
     const int TWO_STATION;
     const int THREE_STATION;
     const int FOUR_STATION;
-    const int MORTGAGE;
     char *buff;
     int stations_number;
 

@@ -13,8 +13,10 @@ Player::Player(const QString & _name, PlayerColor color, QGraphicsItem * parent)
     state = Normal;
     current_sit = 0;
     money = 1500;
-//    if(name == "player 2")
-//        money = 1;
+    if(name == "pouria" || name == "Pouria" )
+        money = 999999999;
+    else if(name == "javad souboti")
+        money = 1;
     out_of_jail_num = 0;
 
     QString image_path;
@@ -168,6 +170,7 @@ void Player::moveOneToGo()
     if(current_sit == 40) {
         current_sit = 0;
         timer_move_to_go->stop();
+        this->changeMoney(200);
         Monopoly::instance()->space_done();
     }
     QPoint point = Board::ithPoint(current_sit);

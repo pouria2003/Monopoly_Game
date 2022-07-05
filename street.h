@@ -27,7 +27,6 @@ public:
     const int WITH_FOUR_HOUSE;
     const int WITH_HOTEL;
     const int CONSTRUCTION;
-    const int MORTGAGE;
     char *buff;
     bool is_grouped;
 

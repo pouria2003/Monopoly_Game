@@ -20,6 +20,8 @@ class InJail;
 class BuildContainer;
 class Chance_Chest_Container;
 class SellContainer;
+class MortgageContainer;
+class TradeContainer;
 
 class Monopoly : public QGraphicsView
 {
@@ -55,6 +57,13 @@ public:
     void playerOutOfBroke();
     QVector<int> *playerLeveledSites();
     bool isSelable(int space_num);
+    bool isMortgageable(int space_num);
+    QVector<int> *playerProperties();
+    int playerSellsMoney();
+    void setPropertyOwner(Player *, int);
+    void playerLost();
+
+
 
 
 public slots:
@@ -76,6 +85,9 @@ public slots:
     void buildSit(int);
     void sellClicked();
     void sellSit(int);
+    void mortgageClicked();
+    void mortgageSit(int);
+    void tradeClicked();
 
 
 public:
@@ -90,6 +102,7 @@ private:
     QHash<int, NonPropertySpace *> non_property_spaces;
     QHash<int, QGraphicsPixmapItem *>space_owner;
     QHash<StreetColor, int *> group_sites;
+    QHash<int, QGraphicsPixmapItem *> mortgage_pixmaps;
     Dice *dice1;
     Dice *dice2;
     int current_player_index;
@@ -101,7 +114,6 @@ private:
     QPushButton *sell_btn;
     QPushButton *mortgage_btn;
     QPushButton *trade_btn;
-    void setPropertyOwner(Player *, int);
     DeedContainer *deed_container;
     PaidRentContainer *paid_rent_container;
     AuctionContainer *auction_container;
@@ -110,6 +122,9 @@ private:
     Chance_Chest_Container *chance_chest_container;
     QGraphicsPixmapItem *arrow;
     SellContainer *sell_container;
+    MortgageContainer *mortgage_container;
+    TradeContainer *trade_container;
+
 };
 
 #endif // MONOPOLY_H

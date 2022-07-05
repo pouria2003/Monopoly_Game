@@ -16,7 +16,7 @@ class Player : public QObject, public QGraphicsPixmapItem
 public:
 
     enum PlayerState {
-        NotStarted, InJail, Normal, Broke, Lost
+         InJail, Normal, Broke, Lost
     };
     int out_of_jail_num;
 

@@ -3,6 +3,9 @@
 
 Chance_Chest::Chance_Chest(QWidget * parent) : QGraphicsView(parent)
 {
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
     card = new QGraphicsPixmapItem;
     scene = new QGraphicsScene();
     scene->addItem(card);

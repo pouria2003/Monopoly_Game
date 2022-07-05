@@ -1,12 +1,11 @@
- #include "buildcontainer.h"
-#include "build.h"
+#include "mortgagecontainer.h"
 #include "monopoly.h"
-#include <iostream>
 
-BuildContainer::BuildContainer(QWidget *parent) : QWidget(parent)
+MortgageContainer::MortgageContainer(QWidget *parent)
+    : QWidget{parent}
 {
     this->setGeometry(200, 100, 780, 525);
-    build = new Build(this);
+    mortgage = new Mortgage(this);
 
     finish_button = new QPushButton("Finish", this);
     finish_button->setGeometry(690, 10, 80, 30);
@@ -17,14 +16,14 @@ BuildContainer::BuildContainer(QWidget *parent) : QWidget(parent)
     this->hide();
 }
 
-void BuildContainer::createBuild(QVector<int> *sites)
+void MortgageContainer::createMortgage(QVector<int> *sites)
 {
-    build->setBuild(sites);
+    mortgage->setMortgage(sites);
     this->show();
 }
 
-void BuildContainer::Mhide()
+void MortgageContainer::Mhide()
 {
-    build->Mhide();
+    mortgage->Mhide();
     this->hide();
 }

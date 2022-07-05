@@ -11,7 +11,6 @@ class Sell : public QGraphicsView
 public:
     Sell(QWidget * = nullptr);
     void setSell(QVector<int> *sites);
-    QPoint ithDeedPoint(int);
 
 private:
     QGraphicsScene *scene;

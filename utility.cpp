@@ -3,7 +3,7 @@
 #include <QDebug>
 
 Utility::Utility(int space_num, const QString& name, int price, int mortgage)
-    : PropertySpace(space_num, name, price), MORTGAGE(mortgage) {}
+    : PropertySpace(space_num, name, price, mortgage) {}
 
 void Utility::playerOn(Player *player)
 {
@@ -24,6 +24,8 @@ void Utility::playerOn(Player *player)
 
 int Utility::rent()
 {
+    if(in_mortgage)
+        return 0;
     int dices_num = Monopoly::instance()->dices_num();
     return ( (owned_boath) ? 4 * dices_num : 10 * dices_num );
 }

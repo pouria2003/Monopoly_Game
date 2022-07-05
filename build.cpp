@@ -12,7 +12,6 @@ Build::Build(QWidget *parent) : QGraphicsView(parent)
 
     button_group = new QButtonGroup(this);
     connect(button_group, SIGNAL(idClicked(int)), Monopoly::instance(), SLOT(buildSit(int)));
-
 }
 
 void Build::setBuild(QVector<int> *_sites)
@@ -68,7 +67,14 @@ QPoint Build::ithDeedPoint(int ith)
     case 7: return QPoint(310, 300);
     case 8: return QPoint(450, 300);
     case 9: return QPoint(590, 300);
-    default : return QPoint(-500, -500);
+    case 10: return QPoint(30, 500);
+    case 11: return QPoint(170, 500);
+    case 12: return QPoint(310, 500);
+    case 13: return QPoint(450, 500);
+    case 14: return QPoint(30, 700);
+    case 15: return QPoint(170, 700);
+    case 16: return QPoint(310, 700);
+    case 17: return QPoint(450, 700);
     }
 }
 

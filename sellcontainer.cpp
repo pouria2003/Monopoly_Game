@@ -1,6 +1,7 @@
 #include "sellcontainer.h"
 #include "sell.h"
 #include <QDebug>
+#include "monopoly.h"
 
 SellContainer::SellContainer(QWidget *parent)
     : QWidget{parent}
@@ -12,6 +13,7 @@ SellContainer::SellContainer(QWidget *parent)
     finish_button->setGeometry(690, 10, 80, 30);
 
     connect(finish_button, SIGNAL(clicked()), this, SLOT(Mhide()));
+    connect(finish_button, SIGNAL(clicked()), Monopoly::instance(), SLOT(enableOtherButtons()));
     this->hide();
 }
 

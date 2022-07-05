@@ -17,14 +17,10 @@ void Deed::setDeed(PropertySpace *_property, Player *_player)
 {
     scene = new QGraphicsScene;
 
-    player = _player;
+    setPlayer(_player);
     property = _property;
 
     this->setScene(scene);
-
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
 
     QString image_path;
     if (typeid(*(property)) == typeid(Street)) {
@@ -176,10 +172,11 @@ void Deed::setDeed(PropertySpace *_property, Player *_player)
     }
     else if (typeid(*(property)) == typeid (Utility)) {
         Utility *utility = dynamic_cast<Utility *>(property);
-        if(utility->space_num == 12)
-            image_path = ":/Images/properties/electric_utility_deed.jpg";
-        else if (utility->space_num == 28)
-            image_path = ":/Images/properties/electric_utility_deed.jpg";
+        image_path = ":/Images/properties/deed_" + QString::number(utility->space_num) + ".jpg";
+//        if(utility->space_num == 12)
+//            image_path = ":/Images/properties/deed_12.jpg";
+//        else if (utility->space_num == 28)
+//            image_path = ":/Images/properties/deed_28.jpg";
 
         item = new QGraphicsPixmapItem(QPixmap(image_path).scaled(400, 490));
         scene->addItem(item);
@@ -193,6 +190,7 @@ void Deed::setDeed(PropertySpace *_property, Player *_player)
 // ######################### BUTTONS ##############################
     buy_btn = new QPushButton("Buy", this);
     buy_btn->setGeometry(305, 250, 80, 30);
+
     QColor col = QColor(Qt::green);
     if(col.isValid()) {
         QString qss = QString("background-color: %1").arg(col.name());
@@ -213,8 +211,8 @@ void Deed::setDeed(PropertySpace *_property, Player *_player)
 
     connect(buy_btn, SIGNAL(clicked()), this, SLOT(buy()));
     connect(buy_btn, SIGNAL(clicked()), this, SLOT(Mclose()));
-    connect(auction_btn, SIGNAL(clicked()), this, SLOT(Mclose()));
     connect(auction_btn, SIGNAL(clicked()), this, SLOT(auction()));
+    connect(auction_btn, SIGNAL(clicked()), this, SLOT(Mclose()));
 }
 
 void Deed::setPlayer(Player *_player)

@@ -49,6 +49,9 @@
         <file>chest_7.png</file>
         <file>chest_8.png</file>
         <file>arrow.png</file>
+        <file>Mortgage_bg.png</file>
+        <file>mortgage.jpg</file>
+        <file>trade_bg.png</file>
     </qresource>
     <qresource prefix="/Style">
         <file>styles.css</file>
@@ -95,11 +98,14 @@
         <file>deed_34.png</file>
         <file>deed_37.png</file>
         <file>deed_39.png</file>
-        <file>deed_station.png</file>
-        <file>water_utility.jpg</file>
-        <file>electric_utility.jpg</file>
         <file>deed_1.png</file>
         <file>deed_3.png</file>
+        <file>deed_5.png</file>
+        <file>deed_12.jpg</file>
+        <file>deed_15.png</file>
+        <file>deed_25.png</file>
+        <file>deed_28.jpg</file>
+        <file>deed_35.png</file>
     </qresource>
     <qresource prefix="/Images/auction">
         <file>auction_bg_blue.png</file>

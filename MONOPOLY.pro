@@ -24,6 +24,8 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     monopoly.cpp \
+    mortgage.cpp \
+    mortgagecontainer.cpp \
     nonpropertyspace.cpp \
     paidrent.cpp \
     paidrentcontainer.cpp \
@@ -35,6 +37,8 @@ SOURCES += \
     sellcontainer.cpp \
     station.cpp \
     street.cpp \
+    trade.cpp \
+    tradecontainer.cpp \
     utility.cpp
 
 HEADERS += \
@@ -53,6 +57,8 @@ HEADERS += \
     injail.h \
     mainwindow.h \
     monopoly.h \
+    mortgage.h \
+    mortgagecontainer.h \
     nonpropertyspace.h \
     paidrent.h \
     paidrentcontainer.h \
@@ -64,6 +70,8 @@ HEADERS += \
     sellcontainer.h \
     station.h \
     street.h \
+    trade.h \
+    tradecontainer.h \
     utility.h
 
 FORMS += \

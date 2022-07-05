@@ -11,7 +11,7 @@ class Deed;
 class PropertySpace : public BoardSpace
 {
 public:
-    PropertySpace(int space_num, const QString& name, int price);
+    PropertySpace(int space_num, const QString& name, int price, int mortgage);
     virtual int rent() = 0;
 
 public:
@@ -19,7 +19,9 @@ public:
     DeedContainer *t;
     const QString NAME;
     const int PRICE;
+    const int MORTGAGE;
     int level;
+    bool in_mortgage;
 
 };
 

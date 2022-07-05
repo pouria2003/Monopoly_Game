@@ -12,7 +12,6 @@ public:
 
 public:
     bool owned_boath;
-    const int MORTGAGE;
 
 };
 

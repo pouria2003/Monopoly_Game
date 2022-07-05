@@ -2,6 +2,7 @@
 #include <QGraphicsPixmapItem>
 #include <QButtonGroup>
 #include "monopoly.h"
+#include "build.h"
 
 Sell::Sell(QWidget *parent) : QGraphicsView(parent)
 {
@@ -28,12 +29,12 @@ void Sell::setSell(QVector<int> *_sites)
         deeds.push_back(new QGraphicsPixmapItem(QPixmap(":/Images/deed/deed_" +
                                                         QString::number(sites->value(i)) + ".png").scaled(120, 150)));
 
-        deeds[j]->setPos(ithDeedPoint(j));
+        deeds[j]->setPos(Build::ithDeedPoint(j));
         scene->addItem(deeds[j]);
 
         buttons.push_back(new QPushButton("Sell", this));
 
-        buttons[j]->setGeometry(ithDeedPoint(j).x() + 10, ithDeedPoint(j).y() + 160 , 100, 30);
+        buttons[j]->setGeometry(Build::ithDeedPoint(j).x() + 10, Build::ithDeedPoint(j).y() + 160 , 100, 30);
 
         col = QColor(Qt::red);
         if(col.isValid()) {
@@ -52,22 +53,6 @@ void Sell::setSell(QVector<int> *_sites)
     connect(button_group, SIGNAL(idClicked(int)), this, SLOT(refresh(int)));
 }
 
-QPoint Sell::ithDeedPoint(int ith)
-{
-    switch(ith) {
-    case 0: return QPoint(30, 100);
-    case 1: return QPoint(170, 100);
-    case 2: return QPoint(310, 100);
-    case 3: return QPoint(450, 100);
-    case 4: return QPoint(590, 100);
-    case 5: return QPoint(30, 300);
-    case 6: return QPoint(170, 300);
-    case 7: return QPoint(310, 300);
-    case 8: return QPoint(450, 300);
-    case 9: return QPoint(590, 300);
-    default : return QPoint(-500, -500);
-    }
-}
 
 void Sell::refresh(int)
 {

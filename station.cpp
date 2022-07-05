@@ -6,8 +6,8 @@
 #include <QDebug>
 
 Station::Station(int space_num, const QString& name, int price, int rent, int two_station, int three_station, int four_station, int mortgage)
-                : PropertySpace(space_num, name, price), RENT(rent), TWO_STATION(two_station),
-                  THREE_STATION(three_station), FOUR_STATION(four_station), MORTGAGE(mortgage)
+                : PropertySpace(space_num, name, price, mortgage), RENT(rent), TWO_STATION(two_station),
+                  THREE_STATION(three_station), FOUR_STATION(four_station)
 {
     buff = new char[sizeof(DeedContainer)];
     t = nullptr;
@@ -40,6 +40,8 @@ void Station::playerOn(Player *player)
 
 int Station::rent()
 {
+    if(in_mortgage)
+        return 0;
     switch (stations_number) {
     case 1: return RENT;
     case 2: return TWO_STATION;

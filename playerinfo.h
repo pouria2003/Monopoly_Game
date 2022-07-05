@@ -16,7 +16,7 @@ public:
 public:
     Player *player;
     QGraphicsTextItem *name_txt;
-    QGraphicsTextItem *money_txt;
+//    QGraphicsTextItem *money_txt;
     QGraphicsPixmapItem *player_color;
 
 };

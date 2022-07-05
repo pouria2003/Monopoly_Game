@@ -1,20 +1,15 @@
-#ifndef BUILD_H
-#define BUILD_H
+#ifndef MORTGAGE_H
+#define MORTGAGE_H
 
 #include <QGraphicsView>
-#include <QGraphicsScene>
-#include <QVector>
-#include <QButtonGroup>
 #include <QPushButton>
 
-
-class Build : public QGraphicsView
+class Mortgage : public QGraphicsView
 {
     Q_OBJECT
 public:
-    Build(QWidget * = nullptr);
-    void setBuild(QVector<int> *sites);
-    static QPoint ithDeedPoint(int ith);
+    Mortgage(QWidget * = nullptr);
+    void setMortgage(QVector<int> *sites);
 
 private:
     QGraphicsScene *scene;
@@ -27,9 +22,6 @@ private:
 public slots:
     void refresh(int);
     void Mhide();
-
 };
 
-
-
-#endif // BUILD_H
+#endif // MORTGAGE_H

@@ -22,6 +22,8 @@
 #include "buildcontainer.h"
 #include "chance_chest_container.h"
 #include "sellcontainer.h"
+#include "mortgagecontainer.h"
+#include "tradecontainer.h"
 
 
 Monopoly * Monopoly::_instance = nullptr;
@@ -229,6 +231,7 @@ void Monopoly::start(const QVector<QString> &players_info)
         }
         mortgage_btn->setGeometry(400, 730, 130, 45);
         mortgage_btn->setDisabled(true);
+        connect(mortgage_btn, SIGNAL(clicked()), this, SLOT(mortgageClicked()));
 
         trade_btn = new QPushButton("TRADE", this);
         col = QColor(Qt::green);
@@ -239,6 +242,8 @@ void Monopoly::start(const QVector<QString> &players_info)
         }
         trade_btn->setGeometry(545, 730, 130, 45);
         trade_btn->setDisabled(true);
+
+        connect(trade_btn, SIGNAL(clicked()), this, SLOT(tradeClicked()));
 
         auction_container = new AuctionContainer(players_info.size(), this);
 
@@ -258,8 +263,11 @@ void Monopoly::start(const QVector<QString> &players_info)
 // #################################### CHANCE CHEST ########################################
         chance_chest_container = new Chance_Chest_Container(this);
 // #################################### SELL ########################################
-    sell_container = new SellContainer(this);
-
+        sell_container = new SellContainer(this);
+// #################################### SELL ########################################
+        mortgage_container = new MortgageContainer(this);
+// #################################### TRADE ########################################
+    trade_container = new TradeContainer(this);
 
 }
 
@@ -340,6 +348,8 @@ void Monopoly::next()
         disableTassButton();
         playerIsInJail();
     }
+//    else if(players[current_player_index]->getState() == Player::PlayerState::Lost)
+//        next();
     arrow->setPos(arrowPoint(current_player_index));
 }
 
@@ -456,6 +466,8 @@ void Monopoly::getOutOfJailPay()
 void Monopoly::buildClicked()
 {
     build_container->createBuild(playersGroupedSites());
+    disableOtherButtons();
+
 }
 
 void Monopoly::buildSit(int space_num)
@@ -476,13 +488,19 @@ void Monopoly::buildSit(int space_num)
         qDebug() << "in build " << space_num;
         switch(space_num / 10) {
         case 0: house_on_street[space_num]->setPos(point.x(), point.y() - 50); break;
-        case 1: house_on_street[space_num]->setPos(point.x() + 50, point.y()); break;
+        case 1: house_on_street[space_num]->setPos(point.x() + 30, point.y()); break;
         case 2: house_on_street[space_num]->setPos(point.x(), point.y() + 50); break;
         case 3: house_on_street[space_num]->setPos(point.x() - 50, point.y()); break;
         }
         scene->addItem(house_on_street[space_num]);
     }
     pixmap.scaled(10, 10);
+    switch(space_num / 10) {
+    case 1: house_on_street[space_num]->setRotation(90); break;
+    case 2: house_on_street[space_num]->setRotation(180); break;
+    case 3: house_on_street[space_num]->setRotation(270); break;
+    }
+
     house_on_street[space_num]->setPixmap(pixmap);
     qDebug() << "space num : " << space_num;
     qDebug() << "level bood : " <<  property_spaces[space_num]->level;
@@ -499,6 +517,8 @@ void Monopoly::buildSit(int space_num)
 void Monopoly::sellClicked()
 {
     sell_container->createSell(playerLeveledSites());
+    disableOtherButtons();
+
 }
 
 void Monopoly::sellSit(int space_num)
@@ -535,6 +555,46 @@ void Monopoly::sellSit(int space_num)
     players[current_player_index]->changeMoney(street->CONSTRUCTION / 2);
 }
 
+void Monopoly::mortgageClicked()
+{
+    mortgage_container->createMortgage(playerProperties());
+    disableOtherButtons();
+
+}
+
+void Monopoly::mortgageSit(int space_num)
+{
+    if(property_spaces[space_num]->in_mortgage) {
+        scene->removeItem(mortgage_pixmaps[space_num]);
+        mortgage_pixmaps.remove(space_num);
+
+        property_spaces[space_num]->in_mortgage = false;
+        property_spaces[space_num]->owner->changeMoney( (-11 * property_spaces[space_num]->MORTGAGE ) / 10);
+    }
+    else {
+        mortgage_pixmaps[space_num] = new QGraphicsPixmapItem(QPixmap(":/Images/mortgage.jpg").scaled(20, 20));
+        QPoint point = Board::ithPoint(space_num);
+        switch (space_num / 10) {
+            case 0: point.setY(point.y() - 60); break;
+            case 1: point.setX(point.x() + 55); break;
+            case 2: point.setY(point.y() + 55); break;
+            case 3: point.setX(point.x() - 60); break;
+        }
+        mortgage_pixmaps[space_num]->setPos(point);
+        scene->addItem(mortgage_pixmaps[space_num]);
+
+        property_spaces[space_num]->in_mortgage = true;
+        property_spaces[space_num]->owner->changeMoney(property_spaces[space_num]->MORTGAGE);
+    }
+
+}
+
+void Monopoly::tradeClicked()
+{
+    trade_container->createTrade(current_player_index, &players, &property_spaces);
+    disableOtherButtons();
+}
+
 void Monopoly::setPropertyOwner(Player *player, int space_num)
 {
     QString image_path;
@@ -565,6 +625,14 @@ void Monopoly::setPropertyOwner(Player *player, int space_num)
     }
     space_owner[space_num]->setPixmap(QPixmap(image_path).scaled(15, 15));
 
+}
+
+void Monopoly::playerLost()
+{
+    players[current_player_index]->setState(Player::PlayerState::Lost);
+    scene->removeItem(players[current_player_index]);
+    players_money[current_player_index]->setPlainText("Lost");
+    players_money[current_player_index]->setDefaultTextColor(Qt::red);
 }
 
 // funtion to get rent of player if player is on another player property
@@ -771,13 +839,16 @@ int Monopoly::dices_num()
 
 void Monopoly::playerBroked()
 {
-//    if(1 < 2)
-        // playerLose();
-    qDebug() << "player Broked run";
-    done_btn->setDisabled(true);
-    enableOtherButtons();
-    build_btn->setDisabled(true);
 
+    if(playerSellsMoney() < -(players[current_player_index]->getMoney())) {
+        playerLost();
+    }
+    else {
+
+        done_btn->setDisabled(true);
+        enableOtherButtons();
+        build_btn->setDisabled(true);
+    }
 
 }
 
@@ -821,3 +892,39 @@ bool Monopoly::isSelable(int space_num)
     return true;
 }
 
+bool Monopoly::isMortgageable(int space_num)
+{
+    if(property_spaces[space_num]->in_mortgage)
+        return false;
+    if(typeid(*(property_spaces[space_num])) == typeid(Street)
+            && property_spaces[space_num]->level != 0)
+        return false;
+    return true;
+}
+
+QVector<int> *Monopoly::playerProperties()
+{
+    QVector<int> *result = new QVector<int>;
+    for(int i = 0; i < 40; ++i) {
+        if(property_spaces.contains(i) && property_spaces[i]->owner == players[current_player_index]) {
+            if(typeid(*(property_spaces[i])) != typeid(Street) || property_spaces[i]->level == 0)
+                result->push_back(i);
+        }
+    }
+    return result;
+}
+
+int Monopoly::playerSellsMoney()
+{
+    int ans = 0;
+    for(int i = 0; i < 40; ++i) {
+        if(property_spaces.contains(i) && property_spaces[i]->owner == players[current_player_index]) {
+            if(typeid(*(property_spaces[i])) == typeid(Street)) {
+                ans += (dynamic_cast<Street *>(property_spaces[i]))->level *
+                        (dynamic_cast<Street *>(property_spaces[i]))->CONSTRUCTION / 2;
+            }
+            ans += property_spaces[i]->MORTGAGE;
+        }
+    }
+    return ans;
+}

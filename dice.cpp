@@ -14,7 +14,7 @@ int Dice::tass()
     QString dice_path = QString(":/Images/") + ((color == White) ? QString("white") : QString("black") )
             + QString("_dice") + QString::number(result);
 
-    QPixmap image(dice_path);
+//    QPixmap image(dice_path);
 
     this->setPixmap(QPixmap(dice_path).scaled(50, 50));
 
